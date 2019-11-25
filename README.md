@@ -5,9 +5,9 @@ This projects implements functions for the calculation of runaway electron growt
 Simply compile using your favourite Fortran compiler
 
 1. the module contained in `double.f`, 
-2. the module contained in `runawayelectron.f` (which requires the module double).
+2. the module contained in `runawayelectron.f` (which requires the module `double`).
 
-The runawayelectrongeneration module can now be used in a Fortran project of yours.
+The `runawayelectrongeneration` module can now be used in a Fortran project of yours.
 
 ## Using the Runaway Electron Generation Module
 The runaway electron growth rate may be calculated for 
