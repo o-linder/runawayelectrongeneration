@@ -64,7 +64,7 @@ The module contains additional public functions and subroutines for the calculat
     - collision of non-thermal and thermal electrons `calc_lnLambdaee(ne,T,p)`,
     - collisions of non-thermal electrons and thermal ions `calc_lnLambdaei(ne,T,p)`.
 
-The input quantity `p` appearing in several functions describes the normalized electron momentum. Some of the quantities calculated in these functions and subroutines are defined in aforementioned references. Remaining quantites are defined in the following references:
+The input quantity `double p` appearing in several functions describes the normalized electron momentum. Some of the quantities calculated in these functions and subroutines are defined in aforementioned references. Remaining quantites are defined in the following references:
 
 1. [L. Hesslow, O. Embreus, M. Hoppe, T.C. DuBois, G. Papp, M. Rahm and T. Fulop. Generalized collision operator for fast electrons interacting with partially ionized impurities, *J. Plasma Phys.* **84** (2018), 905840605](https://doi.org/10.1017/S0022377818001113)
 2. [L. Hesslow, O. Embreus, G.J. Wilkie, G. Papp and T. Fulop. Effect of partially ionized impurities and radiation on the effective critical electric field for runaway generation, *Plasma Phys. Control. Fusion* **60** (2018), 074010](https://doi.org/10.1088/1361-6587/aac33e)
