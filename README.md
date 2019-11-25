@@ -16,12 +16,14 @@ The runaway electron growth rate may be calculated for
     2.  avalanche generation.
 
 For each generation process, two public functions are available, either omitting or including the impact of partially ionized impurities on runaway electron generation. All functions take the following input quantities
+
     * `Z(ns)` (integer): atomic number of each ion species
     * `Z0(ns)` (integer): net charge of each ion species
     * `n(ns)` (double): density of each ion species (m\*\*-3)
     * `ns` (integer): number of ion species
     * `T` (double): temperature (eV)
     * `Epar` (double): parallel electric field (V/m)
+
 For the calculation of avalanche growth rates, additional quantities are necessary, depending on the method used. All functions return the runaway electron growth rate in units of 1/s.
 
 ### Dreicer Generation
@@ -63,6 +65,7 @@ The module contains additional public functions and subroutines for the calculat
         - collisions of non-thermal electrons and thermal ions `calc_lnLambdaei(ne,T,p)`.
 
 The input quantity `p` appearing in several functions describes the normalized electron momentum. Some of the quantities calculated in these functions and subroutines are defined in aforementioned references. Remaining quantites are defined in the following references:
+
     1. [L. Hesslow, O. Embreus, M. Hoppe, T.C. DuBois, G. Papp, M. Rahm and T. Fulop. Generalized collision operator for fast electrons interacting with partially ionized impurities, *J. Plasma Phys.* **84** (2018), 905840605](https://doi.org/10.1017/S0022377818001113)
     2. [L. Hesslow, O. Embreus, G.J. Wilkie, G. Papp and T. Fulop. Effect of partially ionized impurities and radiation on the effective critical electric field for runaway generation, *Plasma Phys. Control. Fusion* **60** (2018), 074010](https://doi.org/10.1088/1361-6587/aac33e)
     3. [P. Helander, L.-G. Eriksson and F. Andersson. Runaway acceleration during magnetic reconnection in tokamaks, *Plasma Phys. Control. Fusion* **44** (2002), B247](https://doi.org/10.1088/0741-3335/44/12B/318)
