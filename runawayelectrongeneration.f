@@ -988,8 +988,6 @@ C----------------------------------------------------------------------|
         if (Z0 .lt. size(vAr))  Ihat = vAr(Z0+1)
       elseif (Z .eq. 36) then
         if (Z0 .lt. size(vKr))  Ihat = vKr(Z0+1)
-      elseif (Z .eq. 36) then
-        if (Z0 .lt. size(vKr))  Ihat = vKr(Z0+1)
       elseif (Z .eq. 54) then
         if (Z0 .lt. size(vXe))  Ihat = vXe(Z0+1)
       endif
