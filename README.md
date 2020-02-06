@@ -33,7 +33,7 @@ Primary runaway electron generation can be calculated using one of two functions
 This function calculates the growth rate according to equations (62-64) in [J.W. Connor and R.J. Hastie. Relativistic limitations on runaway electrons, *Nucl. Fusion* **15** (1975), 415](https://doi.org/10.1088/0029-5515/15/3/007). Note, that the full expression is evaluated. Neither the limit of strong electric fields, equation (66), or the non-relativistic limit, equation (67), is included, as these are deemed irrelevant for application.
 
 #### Neural network: `calc_Gamma_D_nn(Z,Z0,n,ns,T,Epar)`
-This function calculates the growth rate by evaluating a neural network, described in [L. Hesslow, L. Unnerfelt, O. Vallhagen, O. Embreus, M. Hoppe, G. Papp and T. Fulop. Evaluation of the Dreicer runaway growth rate in the presence of high-Z impurities using a neural network, Submitted for publication in *J. Plasma Phys*](https://arxiv.org/pdf/1910.00356). The original MATLAB implementation of the neural network can be found at [https://github.com/unnerfelt/dreicer-nn](https://github.com/unnerfelt/dreicer-nn).
+This function calculates the growth rate by evaluating a neural network, described in [L. Hesslow, L. Unnerfelt, O. Vallhagen, O. Embreus, M. Hoppe, G. Papp and T. Fulop. Evaluation of the Dreicer runaway growth rate in the presence of high-Z impurities using a neural network, *J. Plasma Phys* **85** (2019), 475850601](https://doi.org/10.1017/S0022377819000874). The original MATLAB implementation of the neural network can be found at [https://github.com/unnerfelt/dreicer-nn](https://github.com/unnerfelt/dreicer-nn).
 
 ### Avalanche Generation
 Secondary runaway generation due to the avalanche mechanism can be calculated using one of two function.
