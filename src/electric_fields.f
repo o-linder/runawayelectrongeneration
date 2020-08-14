@@ -1,5 +1,5 @@
 C######################################################################|
-      module calculate_electric_fields
+      module electric_fields
 C----------------------------------------------------------------------|
 C     This module is used to calculate characteristic electric fields.
 C   
@@ -19,9 +19,11 @@ C       - ne:   free electron density (m**-3)
 C
 C----------------------------------------------------------------------|
       use double
-      use calculate_Coulomb_logarithms, only :
+      use physical_constants, only :
+     >  alpha
+      use Coulomb_logarithms, only :
      >  ln_Lambda_0, ln_Lambda_c
-      use calculate_collision_frequencies
+      use collision_frequencies
 
       implicit none
       
@@ -38,7 +40,6 @@ C----------------------------------------------------------------------|
      >  iter_max    = 100               ! maximum number of iterations
 
       real(kind=dp), parameter ::
-     >  alpha       = 1/137.036_dp,
      >  iter_acc    = 1.0e-8_dp         ! target accuracy of iterations
 
       contains
@@ -172,5 +173,5 @@ C----------------------------------------------------------------------|
 C======================================================================|
 
 
-      end module calculate_electric_fields
+      end module electric_fields
 C######################################################################|

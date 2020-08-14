@@ -18,11 +18,13 @@ C       - Epar: parallel electric field (V/m)
 C
 C----------------------------------------------------------------------|
       use double
-      use calculate_Coulomb_logarithms, only :
+      use physical_constants, only :
+     >  pi
+      use Coulomb_logarithms, only :
      >  ln_Lambda_0, ln_Lambda_c
-      use calculate_collision_frequencies, only :
+      use collision_frequencies, only :
      >  nu_ee, nuBar_D, nuBar_S
-      use calculate_electric_fields
+      use electric_fields
 
       public ::
      >  avalanche_growthrate_classic,
@@ -38,8 +40,7 @@ C----------------------------------------------------------------------|
      >  iter_max    = 100               ! maximum number of iterations
 
       real(kind=dp), parameter ::
-     >  iter_acc    = 1.0e-8_dp,        ! target accuracy of iterations
-     >  pi          = 3.1415926535897931_dp
+     >  iter_acc    = 1.0e-8_dp         ! target accuracy of iterations
 
       contains
 

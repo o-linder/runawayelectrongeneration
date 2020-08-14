@@ -17,9 +17,9 @@ C       - Epar: parallel electric field (V/m)
 C
 C----------------------------------------------------------------------|
       use double
-      use calculate_collision_frequencies, only :
+      use collision_frequencies, only :
      >  nu_ee
-      use calculate_electric_fields, only :
+      use electric_fields, only :
      >  E_c, E_D
 
       implicit none

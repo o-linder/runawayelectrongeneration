@@ -4,16 +4,19 @@ C----------------------------------------------------------------------|
 C     This module is used to calculate runaway electron growth rates
 C     and related quantities.
 C----------------------------------------------------------------------|
+      use calculate_hot_tail_population
       use calculate_Dreicer_growthrate
       use calculate_avalanche_growthrate
-      use calculate_electric_fields
-      use calculate_collision_frequencies
-      use calculate_Coulomb_logarithms
+      use electric_fields
+      use collision_frequencies
+      use Coulomb_logarithms
 
       implicit none
 
       public  :: 
         ! ----- Runaway electron growth rates -------------------------|
+     >  hot_tail_density,
+     >
             ! Dreicer growth rates
      >  Dreicer_growthrate_classic,
      >  Dreicer_growthrate_CODE_neural_network,
@@ -28,7 +31,11 @@ C----------------------------------------------------------------------|
      >  E_c,
      >  E_D,
      >
-            ! Critical momentum
+            ! Hot-tail related
+     >  tau,
+     >  EVDF_modified_Maxwellian,
+     >
+            ! Avalanche related: critical momentum
      >  p_star,
      >
             ! Collision frequencies
@@ -37,6 +44,10 @@ C----------------------------------------------------------------------|
      >  nuBar_S,
      >  calc_nuBar_S01,
      >  nu_ee,
+     >
+            ! Velocities
+     >  v_c,
+     >  v_th,
      >
             ! Coulomb logarithms
      >  ln_Lambda_0,

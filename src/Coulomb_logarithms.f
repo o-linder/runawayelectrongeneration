@@ -1,5 +1,5 @@
 C######################################################################|
-      module calculate_Coulomb_logarithms
+      module Coulomb_logarithms
 C----------------------------------------------------------------------|
 C     This module is used to calculate the Coulomb logarithm
 C     associated with collisions of various particles.
@@ -19,8 +19,14 @@ C       - p:    normalised electron momentum
 C
 C----------------------------------------------------------------------|
       use double
+      use physical_constants, only :
+     >  m_ec
 
       implicit none
+
+      interface ln_Lambda_0
+          module procedure ln_Lambda_0_ra, ln_Lambda_0_rs
+      end interface
 
       public ::
      >  ln_Lambda_0,
@@ -29,17 +35,18 @@ C----------------------------------------------------------------------|
      >  ln_Lambda_ei
 
       private ::
-     >  dp, k, mc2
+     >  ln_Lambda_0_ra, ln_Lambda_0_rs,
+     >
+     >  dp, k, m_ec
 
         ! ----- Parameters --------------------------------------------|
       real(kind=dp), parameter ::
-     >  k   = 5._dp,
-     >  mc2 = 0.5109989461e6_dp
+     >  k   = 5._dp
 
       contains
 
 C======================================================================|
-      real(kind=dp) function ln_Lambda_0(ne, T)
+C     Function ln_Lambda_0
 C----------------------------------------------------------------------|
 C     Calculates the thermal electron Coulomb logarithm according to 
 C     Eq. (2.7) in L. Hesslow et al., J. Plasma Phys. 84, 905840605 
@@ -52,15 +59,38 @@ C
 C     Output:
 C       lnL0: thermal electron Coulomb logarithm
 C----------------------------------------------------------------------|
-        ! ----- Function arguments ------------------------------------|
-      real(kind=dp), intent(in) ::
-     >  ne, T
+      !----------------------------------------------------------------|
+      function ln_Lambda_0_ra(ne, T)
+      !----------------------------------------------------------------|
+      real(kind=dp), dimension(:), intent(in) :: ne, T
+      real(kind=dp), dimension(:), allocatable :: ln_Lambda_0_ra
+      integer :: n
 
-C----------------------------------------------------------------------|
-      ln_Lambda_0 = 14.9_dp - .5_dp*log(1.e-20_dp*ne) + log(T/1.e3_dp) 
+        ! Allocate array
+      n = size(ne)
+      allocate(ln_Lambda_0_ra(1:n))
+
+        ! Calculate Coulomb logarithm
+      ln_Lambda_0_ra(:) = 14.9_dp - .5_dp*log(1.e-20_dp*ne(:)) 
+     >  + log(T(:)/1.e3_dp) 
 
       return
-      end function ln_Lambda_0
+      end function ln_Lambda_0_ra
+      !----------------------------------------------------------------|
+
+
+      !----------------------------------------------------------------|
+      real(kind=dp) function ln_Lambda_0_rs(ne, T)
+      !----------------------------------------------------------------|
+      real(kind=dp), intent(in) :: ne, T
+      real(kind=dp), dimension(1) :: tmp
+
+      tmp = ln_Lambda_0_ra((/ne/), (/T/))
+      ln_Lambda_0_rs = tmp(1)
+
+      return
+      end function ln_Lambda_0_rs
+      !----------------------------------------------------------------|
 C======================================================================|
 
 
@@ -111,7 +141,7 @@ C----------------------------------------------------------------------|
 
 C----------------------------------------------------------------------|
       ln_Lambda_ee= ln_Lambda_0(ne, T) + 1._dp/k
-     >  * log(1 + sqrt(mc2*(sqrt(1+p**2)-1)/T)**k)
+     >  * log(1 + sqrt(m_ec*(sqrt(1+p**2)-1)/T)**k)
 
       return
       end function ln_Lambda_ee
@@ -139,12 +169,12 @@ C----------------------------------------------------------------------|
 
 C----------------------------------------------------------------------|
       ln_Lambda_ei = ln_Lambda_0(ne, T) 
-     >  + log(1 + (sqrt(2*mc2/T)*p)**k)/k
+     >  + log(1 + (sqrt(2*m_ec/T)*p)**k)/k
 
       return
       end function ln_Lambda_ei
 C======================================================================|
 
 
-      end module calculate_Coulomb_logarithms
+      end module Coulomb_logarithms
 C######################################################################|

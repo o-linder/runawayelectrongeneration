@@ -15,10 +15,12 @@ DEMO	= $(REG)_demo
 
 # ----- Required modules in order of dependence -----------------------|
 MODS 	= 	double \
-			calculate_Coulomb_logarithms \
-			calculate_collision_frequencies \
-			calculate_electric_fields \
+			physical_constants \
+			Coulomb_logarithms \
+			collision_frequencies \
+			electric_fields \
 			calculate_Dreicer_growthrate \
+			calculate_hot_tail_population \
 			calculate_avalanche_growthrate
 
 MODOBJ 	= $(patsubst %, $(OBJDIR)/%.o, $(MODS))

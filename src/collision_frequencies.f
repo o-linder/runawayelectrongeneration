@@ -1,5 +1,5 @@
 C######################################################################|
-      module calculate_collision_frequencies
+      module collision_frequencies
 C----------------------------------------------------------------------|
 C     This module is used to calculate various collision frequencies.
 C   
@@ -26,7 +26,9 @@ C       - p:    normalised electron momentum
 C
 C----------------------------------------------------------------------|
       use double
-      use calculate_Coulomb_logarithms
+      use physical_constants, only :
+     >  alpha
+      use Coulomb_logarithms
 
       implicit none
 
@@ -46,7 +48,6 @@ C----------------------------------------------------------------------|
 
         ! ----- Parameters --------------------------------------------|
       real(kind=dp), parameter ::
-     >  alpha = 1/137.036_dp,
      >  k = 5.0_dp
 
       contains
@@ -446,5 +447,5 @@ C----------------------------------------------------------------------|
 C======================================================================|
 
 
-      end module calculate_collision_frequencies
+      end module collision_frequencies
 C######################################################################|
