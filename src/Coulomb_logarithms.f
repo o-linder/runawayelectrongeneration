@@ -21,11 +21,15 @@ C----------------------------------------------------------------------|
       use double
       use physical_constants, only :
      >  m_ec
+      use math, only :
+     >  max_a
+      use var_args, only :
+     >  var_args_r, get_dependent_indices_and_size
 
       implicit none
 
       interface ln_Lambda_0
-          module procedure ln_Lambda_0_ra, ln_Lambda_0_rs
+          module procedure ln_Lambda_0_a, ln_Lambda_0_s
       end interface
 
       public ::
@@ -35,7 +39,7 @@ C----------------------------------------------------------------------|
      >  ln_Lambda_ei
 
       private ::
-     >  ln_Lambda_0_ra, ln_Lambda_0_rs,
+     >  ln_Lambda_0_a, ln_Lambda_0_s, ln_Lambda_0_s_a,
      >
      >  dp, k, m_ec
 
@@ -58,38 +62,55 @@ C       T   : electron temperature (eV)
 C
 C     Output:
 C       lnL0: thermal electron Coulomb logarithm
+C
 C----------------------------------------------------------------------|
       !----------------------------------------------------------------|
-      function ln_Lambda_0_ra(ne, T)
-      !----------------------------------------------------------------|
-      real(kind=dp), dimension(:), intent(in) :: ne, T
-      real(kind=dp), dimension(:), allocatable :: ln_Lambda_0_ra
-      integer :: n
-
-        ! Allocate array
-      n = size(ne)
-      allocate(ln_Lambda_0_ra(1:n))
-
-        ! Calculate Coulomb logarithm
-      ln_Lambda_0_ra(:) = 14.9_dp - .5_dp*log(1.e-20_dp*ne(:)) 
-     >  + log(T(:)/1.e3_dp) 
-
-      return
-      end function ln_Lambda_0_ra
-      !----------------------------------------------------------------|
-
-
-      !----------------------------------------------------------------|
-      real(kind=dp) function ln_Lambda_0_rs(ne, T)
+      real(kind=dp) function ln_Lambda_0_s(ne, T)
       !----------------------------------------------------------------|
       real(kind=dp), intent(in) :: ne, T
-      real(kind=dp), dimension(1) :: tmp
 
-      tmp = ln_Lambda_0_ra((/ne/), (/T/))
-      ln_Lambda_0_rs = tmp(1)
+      ln_Lambda_0_s = 14.9_dp - .5_dp*log(1.e-20_dp*ne) 
+     >  + log(T/1.e3_dp) 
 
       return
-      end function ln_Lambda_0_rs
+      end function ln_Lambda_0_s
+      !----------------------------------------------------------------|
+
+
+      !----------------------------------------------------------------|
+      real(kind=dp) function ln_Lambda_0_s_a(args) 
+      !----------------------------------------------------------------|
+      ! Hidden alias for ln_Lambda_0_s.
+      !----------------------------------------------------------------|
+      real(kind=dp), dimension(:), intent(in) :: args
+
+      ln_Lambda_0_s_a = ln_Lambda_0_s(ne=args(1), T=args(2))
+
+      return
+      end function ln_Lambda_0_s_a
+      !----------------------------------------------------------------|
+
+
+      !----------------------------------------------------------------|
+      function ln_Lambda_0_a(ne, T) result(ln_Lambda_0)
+      !----------------------------------------------------------------|
+      real(kind=dp), dimension(:), intent(in) :: ne, T
+      real(kind=dp), dimension(:), allocatable :: ln_Lambda_0
+      integer :: i, j, n, n_elems(2)
+      real(kind=dp), dimension(max(size(ne),size(T)),2) :: args
+
+        ! ----- Set up input arrays -----------------------------------|
+      args(:,1) = ne(:)
+      args(:,2) = T(:)
+      n_elems = (/ size(ne), size(T) /)
+
+        ! ----- Set up result array -----------------------------------|
+      call get_dependent_indices_and_size(n_elems, i, j, n)
+      allocate(ln_Lambda_0(1:n))
+      ln_Lambda_0 = var_args_r(ln_Lambda_0_s_a, args, n_elems)
+
+      return
+      end function ln_Lambda_0_a
       !----------------------------------------------------------------|
 C======================================================================|
 
@@ -107,6 +128,7 @@ C       T   : electron temperature (eV)
 C
 C     Output:
 C       lnLc: relativistic electron Coulomb logarithm
+C
 C----------------------------------------------------------------------|
         ! ----- Function arguments ------------------------------------|
       real(kind=dp), intent(in) ::
@@ -134,6 +156,7 @@ C       p   : normalised electron momentum
 C
 C     Output:
 C       lnLe: electron-electron Coulomb logarithm
+C
 C----------------------------------------------------------------------|
         ! ----- Function arguments ------------------------------------|
       real(kind=dp), intent(in) ::
@@ -162,6 +185,7 @@ C       p   : normalised electron momentum
 C
 C     Output:
 C       lnLi: electron-ion Coulomb logarithm
+C
 C----------------------------------------------------------------------|
         ! ----- Function arguments ------------------------------------|
       real(kind=dp), intent(in) ::

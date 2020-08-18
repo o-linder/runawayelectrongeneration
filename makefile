@@ -16,6 +16,9 @@ DEMO	= $(REG)_demo
 # ----- Required modules in order of dependence -----------------------|
 MODS 	= 	double \
 			physical_constants \
+			math \
+			var_args \
+			file_io \
 			Coulomb_logarithms \
 			collision_frequencies \
 			electric_fields \
@@ -39,7 +42,7 @@ $(REG):	$(MODOBJ) $(OBJDIR)/$(REG).o
 $(DEMO): $(MODOBJ) $(OBJDIR)/$(REG).o $(OBJDIR)/$(DEMO).o
 	@# Builds the demonstration program
 	@cp $(MODDIR)/$(REG).mod ./.
-	$(LINK.f) -o $@ $^
+	$(FC) $(FFLAGS) -o $@ $^
 
 .PHONY: all
 all:

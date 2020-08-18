@@ -1,52 +1,70 @@
 C======================================================================|
-      program runawayElectronGeneration_demo
-
+      program hottailpopulation_demo
+C----------------------------------------------------------------------|
+C     Demonstration of calculating the hot-tail population.
+C----------------------------------------------------------------------|
       use double
       use runawayelectrongeneration
-      use calculate_hot_tail_population
 
       implicit none
 
-      real(kind=dp) ::
-     >  ne, p, Te, E, tmp
+        ! ----- Parameters --------------------------------------------|
+      integer, parameter ::
+     >  n_time = 401
 
-      real(kind=dp), dimension(2) ::
-     >  T, nes
+      real(kind=dp), parameter ::
+     >  time_step = .5e-5_dp
+
+        ! ----- Local variables ---------------------------------------|
+      integer ::
+     >  i, un
+
+      integer, dimension(2) ::
+     >  dings
+
+      real(kind=dp) ::
+     >  ne_i, ne_f, t_dec, Te_i, Te_f, tmp
+
+      real(kind=dp), dimension(n_time) ::
+     >  Epar, ne, Te, time
 
 C----------------------------------------------------------------------|
 C     Set plasma parameters
 C----------------------------------------------------------------------|
-      ne = 3e19_dp
-      Te = 4e3_dp
-      p  = 1._dp
-      E  = 1._dp
-      T(:)  = (/ 1e3_dp, 2e3_dp /)
-      nes(:) = (/ 1e19_dp, 2e19_dp /)
+      time  = (/((i-1)*time_step, i=1,n_time)/)
+      t_dec = 1.5e-4_dp
+      Te_i  = 7.e3_dp
+      Te_f  = 10._dp
+      ne_i  = 3.e19_dp
+      ne_f  = 15.e19_dp
+
+      Te    = (Te_i - Te_f)*exp(-time/t_dec) + Te_f
+      ne    = (ne_i - ne_f)*exp(-time/t_dec) + ne_f
+      Epar  = (0.01_dp - 1._dp)*exp(-time/5.e-4_dp) + 1._dp
 
 C----------------------------------------------------------------------|
-C     Test if calculation of plasma quantities working
+C     Calculate hot-tail density for demo parameters
 C----------------------------------------------------------------------|
-        ! ----- Coulomb logarithms ------------------------------------|
-      write(*,'(a,f8.4)') 'ln Lambda_0:  ', ln_Lambda_0(ne, Te)
-      write(*,'(a,10f8.4)') 'ln Lambda_0:  ', ln_Lambda_0(nes, T)
-      write(*,'(a,f8.4)') 'ln Lambda_c:  ', ln_Lambda_c(ne, Te)
-      write(*,'(a,f8.4)') 'ln Lambda_ee: ', ln_Lambda_ee(ne, Te, p)
-      write(*,'(a,f8.4)') 'ln Lambda_ei: ', ln_Lambda_ei(ne, Te, p)
+      un=10
+      open(unit=un, file='hot_tails.dat', action='write')
 
-        ! ----- Thermal velocity and collision frequency --------------|
-      write(*,'(a,e12.4)') 'v_th:  ', v_th(Te)
-      write(*,'(a,e12.4)') 'nu_ee: ', nu_ee(ne, Te)
-      write(*,'(a,e12.4)') 'v_c:   ', v_c(ne, Te, E)
+        ! Header
+      write(un,'(a)',advance='no') '# Time (s)          ' 
+      write(un,'(a)',advance='no') '  n_hot (m**-3)     '
+      write(un,'(a)',advance='no') '  n_e (m**-3)       '
+      write(un,'(a)',advance='no') '  T_e (ev)          '
+      write(un,'(a)',advance='no') '  E_par (V/m)       '
+      write(un,'(a)',advance='no') '  v_c (v_th0)       '
+      write(un,'(a)')              '  tau               '
 
-        ! ----- Characteristic electric fields ------------------------|
-      write(*,'(a,f8.4)') 'E_c: ', E_c(ne, Te)
-      write(*,'(a,f8.4)') 'E_D: ', E_D(ne, Te)
-
-      tmp = hot_tail_density(3.e-4_dp, 1.e-4_dp, 1._dp, 
-     >  10._dp, 8.e3_dp, ne_i=3.e19_dp, ne_f=14.e19_dp, ne=5.e19_dp)
+      do i=1,n_time
+        tmp = hot_tail_density(time(i), t_dec, Epar(i), T=Te(i), 
+     >      T_i=Te_i, ne=ne(i), ne_i=ne_i, ne_f=ne_f, 
+     >      store_result=.true., un=un) 
+      enddo
+      close(un)
 
       contains
 
-
-      end program runawayElectronGeneration_demo
+      end program hottailpopulation_demo
 C======================================================================|
