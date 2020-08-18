@@ -11,7 +11,7 @@ SRCDIR  = ./src
 
 # ----- Main modules and demonstration program ------------------------|
 REG		= runawayelectrongeneration
-DEMO	= $(REG)_demo
+DEMO	= hot_tail_demo
 
 # ----- Required modules in order of dependence -----------------------|
 MODS 	= 	double \
@@ -41,8 +41,7 @@ $(REG):	$(MODOBJ) $(OBJDIR)/$(REG).o
 
 $(DEMO): $(MODOBJ) $(OBJDIR)/$(REG).o $(OBJDIR)/$(DEMO).o
 	@# Builds the demonstration program
-	@cp $(MODDIR)/$(REG).mod ./.
-	$(FC) $(FFLAGS) -o $@ $^
+	$(FC) $(FFLAGS) -o demo/$@ $^
 
 .PHONY: all
 all:

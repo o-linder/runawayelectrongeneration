@@ -213,7 +213,7 @@ C----------------------------------------------------------------------|
 C     Store results if requested      
 C----------------------------------------------------------------------|
       if (store_results .and. my_un.gt.0) then
-        call store_real_arr(my_un, (/ time, n_ht, Epar, T, ne, 
+        call store_real_arr(my_un, (/ time, n_ht, ne, T, Epar, 
      >      v_c(ne, T, Epar)/v_th0, tau_t /))
       endif
 
@@ -506,7 +506,6 @@ C----------------------------------------------------------------------|
       return
       end subroutine print_hot_tail_info
 C======================================================================|
-
 
       end module calculate_hot_tail_population
 C######################################################################|
