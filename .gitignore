@@ -1,7 +1,7 @@
 mod/
+obj/
 
 .__afs*
-*.o
 *.swp
 *.un*
 *.vim

@@ -11,10 +11,11 @@ SRCDIR  = ./src
 
 # ----- Main modules and demonstration program ------------------------|
 REG		= runawayelectrongeneration
+REGC	= $(REG)_complete
 DEMO	= hot_tail_demo
 
 # ----- Required modules in order of dependence -----------------------|
-MODS 	= 	double \
+OBJS 	= 	double \
 			physical_constants \
 			math \
 			var_args \
@@ -22,11 +23,11 @@ MODS 	= 	double \
 			Coulomb_logarithms \
 			collision_frequencies \
 			electric_fields \
-			calculate_Dreicer_growthrate \
 			calculate_hot_tail_population \
+			calculate_Dreicer_growthrate \
 			calculate_avalanche_growthrate
 
-MODOBJ 	= $(patsubst %, $(OBJDIR)/%.o, $(MODS))
+OBJSPTH = $(patsubst %, $(OBJDIR)/%.o, $(OBJS))
 
 # ----- Compile fortran files -----------------------------------------|
 $(OBJDIR)/%.o: $(SRCDIR)/%.f
@@ -35,22 +36,31 @@ $(OBJDIR)/%.o: $(SRCDIR)/%.f
 	@mkdir -p $(MODDIR)
 	$(FC) -c -module $(MODDIR) -o $@ $^
 
-$(REG):	$(MODOBJ) $(OBJDIR)/$(REG).o
-	@# Creates the main module of this project
+$(REGC).o: $(OBJSPTH) $(OBJDIR)/$(REG).o
+	@# Creates a single object from all required objects and stores it
+	@# and the main module of this project in the main directory
 	@cp $(MODDIR)/$(REG).mod ./.
+	ld -relocatable $^ -o $@
+	cp $@ $(OBJDIR)/$@
 
-$(DEMO): $(MODOBJ) $(OBJDIR)/$(REG).o $(OBJDIR)/$(DEMO).o
+$(DEMO): $(REGC).o $(OBJDIR)/$(DEMO).o
 	@# Builds the demonstration program
 	$(FC) $(FFLAGS) -o demo/$@ $^
 
+.PHONY: project
+project:
+	make $(REGC).o
+
 .PHONY: all
 all:
+	make project
 	make $(DEMO)
 
 # -----	Clean up ------------------------------------------------------|
 .PHONY: clean
 clean:
+	@rm -f $(REGC).o $(REG).mod
 	@rm -rf $(MODDIR)
 	@rm -rf $(OBJDIR)
 	   
-# ----- DONE ----------------------------------------------------------|
+# ----- Done ----------------------------------------------------------|
