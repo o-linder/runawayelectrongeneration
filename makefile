@@ -17,8 +17,6 @@ DEMO	= hot_tail_demo
 # ----- Required modules in order of dependence -----------------------|
 OBJS 	= 	double \
 			physical_constants \
-			math \
-			var_args \
 			file_io \
 			Coulomb_logarithms \
 			collision_frequencies \

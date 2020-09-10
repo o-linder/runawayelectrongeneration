@@ -21,16 +21,8 @@ C----------------------------------------------------------------------|
       use double
       use physical_constants, only :
      >  m_ec
-      use math, only :
-     >  max_a
-      use var_args, only :
-     >  var_args_r, get_dependent_indices_and_size
 
       implicit none
-
-      interface ln_Lambda_0
-          module procedure ln_Lambda_0_a, ln_Lambda_0_s
-      end interface
 
       public ::
      >  ln_Lambda_0,
@@ -39,8 +31,6 @@ C----------------------------------------------------------------------|
      >  ln_Lambda_ei
 
       private ::
-     >  ln_Lambda_0_a, ln_Lambda_0_s, ln_Lambda_0_s_a,
-     >
      >  dp, k, m_ec
 
         ! ----- Parameters --------------------------------------------|
@@ -50,7 +40,7 @@ C----------------------------------------------------------------------|
       contains
 
 C======================================================================|
-C     Function ln_Lambda_0
+      real(kind=dp) function ln_Lambda_0(ne, T)
 C----------------------------------------------------------------------|
 C     Calculates the thermal electron Coulomb logarithm according to 
 C     Eq. (2.7) in L. Hesslow et al., J. Plasma Phys. 84, 905840605 
@@ -64,54 +54,15 @@ C     Output:
 C       lnL0: thermal electron Coulomb logarithm
 C
 C----------------------------------------------------------------------|
-      !----------------------------------------------------------------|
-      real(kind=dp) function ln_Lambda_0_s(ne, T)
-      !----------------------------------------------------------------|
-      real(kind=dp), intent(in) :: ne, T
+        ! ----- Function arguments ------------------------------------|
+      real(kind=dp), intent(in) :: 
+     >  ne, T
 
-      ln_Lambda_0_s = 14.9_dp - .5_dp*log(1.e-20_dp*ne) 
-     >  + log(T/1.e3_dp) 
-
-      return
-      end function ln_Lambda_0_s
-      !----------------------------------------------------------------|
-
-
-      !----------------------------------------------------------------|
-      real(kind=dp) function ln_Lambda_0_s_a(args) 
-      !----------------------------------------------------------------|
-      ! Hidden alias for ln_Lambda_0_s.
-      !----------------------------------------------------------------|
-      real(kind=dp), dimension(:), intent(in) :: args
-
-      ln_Lambda_0_s_a = ln_Lambda_0_s(ne=args(1), T=args(2))
+C----------------------------------------------------------------------|
+      ln_Lambda_0 = 14.9_dp - .5_dp*log(1.e-20_dp*ne) + log(T/1.e3_dp) 
 
       return
-      end function ln_Lambda_0_s_a
-      !----------------------------------------------------------------|
-
-
-      !----------------------------------------------------------------|
-      function ln_Lambda_0_a(ne, T) result(ln_Lambda_0)
-      !----------------------------------------------------------------|
-      real(kind=dp), dimension(:), intent(in) :: ne, T
-      real(kind=dp), dimension(:), allocatable :: ln_Lambda_0
-      integer :: i, j, n, n_elems(2)
-      real(kind=dp), dimension(max(size(ne),size(T)),2) :: args
-
-        ! ----- Set up input arrays -----------------------------------|
-      args(:,1) = ne(:)
-      args(:,2) = T(:)
-      n_elems = (/ size(ne), size(T) /)
-
-        ! ----- Set up result array -----------------------------------|
-      call get_dependent_indices_and_size(n_elems, i, j, n)
-      allocate(ln_Lambda_0(1:n))
-      ln_Lambda_0 = var_args_r(ln_Lambda_0_s_a, args, n_elems)
-
-      return
-      end function ln_Lambda_0_a
-      !----------------------------------------------------------------|
+      end function ln_Lambda_0
 C======================================================================|
 
 
