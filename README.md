@@ -188,7 +188,7 @@ C     Output:
 C       distr_func: magnitude of the electron distribution function
 C
 C----------------------------------------------------------------------|
-```fortran
+```
 
 #### `function p_star`
 ```fortran
