@@ -56,6 +56,7 @@ C       Epar: parallel electric field (V/m)
 C
 C     Output:
 C       Gamm: flux of primary runaway electrons (1/s)
+C          
 C----------------------------------------------------------------------|
         ! ----- Parameters --------------------------------------------|
       real(kind=dp), parameter ::
@@ -116,8 +117,8 @@ C======================================================================|
      >   Z, Z0, nj, nSpecies, T, Epar) result (Gamma_D)
 C----------------------------------------------------------------------|
 C     The flux of primary electrons to relativistic momenta is 
-C     calculated according to L. Hesslow et al., To be submitted to
-C     J. Plasma Phys.
+C     calculated according to Eq. (3.3) in L. Hesslow et al., J. Plasma
+C     Phys. 85, 475850601 (2019).
 C          
 C     Input:
 C       Z   : atomic number of each ion species
@@ -130,6 +131,7 @@ C       Epar: parallel electric field (V/m)
 C
 C     Output:
 C       Gamm: flux of primary runaway electrons (1/s)
+C          
 C----------------------------------------------------------------------|
       include 'src/inc/parameters_CODE_neural_network.inc'
 

@@ -13,6 +13,7 @@ SRCDIR  = ./src
 REG		= runawayelectrongeneration
 REGC	= $(REG)_complete
 DEMO	= hot_tail_demo
+MODA	= mods.tar.gz
 
 # ----- Required modules in order of dependence -----------------------|
 OBJS 	= 	double \
@@ -36,8 +37,8 @@ $(OBJDIR)/%.o: $(SRCDIR)/%.f
 
 $(REGC).o: $(OBJSPTH) $(OBJDIR)/$(REG).o
 	@# Creates a single object from all required objects and stores it
-	@# and the main module of this project in the main directory
-	@cp $(MODDIR)/$(REG).mod ./.
+	@# and an archive of the required modules in the main directory
+	@tar czf $(MODA) $(MODDIR)/$(REG).mod
 	ld -relocatable $^ -o $@
 	cp $@ $(OBJDIR)/$@
 
@@ -57,7 +58,7 @@ all:
 # -----	Clean up ------------------------------------------------------|
 .PHONY: clean
 clean:
-	@rm -f $(REGC).o $(REG).mod
+	@rm -f $(REGC).o $(MODA)
 	@rm -rf $(MODDIR)
 	@rm -rf $(OBJDIR)
 	   

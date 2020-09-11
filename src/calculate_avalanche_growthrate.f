@@ -64,6 +64,7 @@ C       eps : local r/R
 C
 C     Output:
 C       Gamm: flux of secondary runaway electrons (1/s)
+C          
 C----------------------------------------------------------------------|
         ! ----- Function arguments ------------------------------------|
       integer, intent(in) :: 
@@ -115,8 +116,8 @@ C======================================================================|
      >  T, Epar, B) result (Gamma_av) 
 C----------------------------------------------------------------------|
 C     The flux of secondary electrons to relativistic momenta is 
-C     calculated according to Eq. (14) in
-C     L. Hesslow et al., Nucl. Fusion 59, 084004 (2019).
+C     calculated according to Eq. (14) in L. Hesslow et al., Nucl. 
+C     Fusion 59, 084004 (2019).
 C          
 C     Input:
 C       Z   : atomic number of each ion species
@@ -130,6 +131,7 @@ C       B   : magnetic field (T)
 C
 C     Output:
 C       Gamm: flux of secondary runaway electrons (1/s)
+C          
 C----------------------------------------------------------------------|
         ! ----- Function arguments ------------------------------------|
       integer, intent(in) :: 
@@ -190,6 +192,7 @@ C       E   : parallel electric field (V/m)
 C
 C     Output:
 C       psta: critical momentum for electron runaway, normalised to me/c
+C
 C----------------------------------------------------------------------|
         ! ----- Function arguments ------------------------------------|
       integer, intent(in) ::

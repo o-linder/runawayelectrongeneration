@@ -65,6 +65,7 @@ C       T   : electron temperature (eV)
 C
 C     Output:
 C       nu_ee: thermal electron electron collision frequency
+C
 C----------------------------------------------------------------------|
         ! ----- Function arguments ------------------------------------|
       real(kind=dp), intent(in) ::
@@ -98,6 +99,7 @@ C       p   : normalised electron momentum
 C
 C     Output:
 C       nuBD: electron deflection frequency
+C
 C----------------------------------------------------------------------|
         ! ----- Function arguments ------------------------------------|
       integer, intent(in) ::
@@ -168,6 +170,7 @@ C
 C       Output:
 C           nBD0: 0th order electron deflection frequency
 C           nBD1: 1st order electron deflection frequency
+C
 C----------------------------------------------------------------------|
         ! ----- Subroutine arguments ----------------------------------|
       integer, intent(in) :: 
@@ -237,6 +240,7 @@ C       p   : normalised electron momentum
 C
 C     Output:
 C       nuBS: electron slowing down frequency
+C
 C----------------------------------------------------------------------|
         ! ----- Function arguments ------------------------------------|
       integer, intent(in) ::
@@ -304,6 +308,7 @@ C
 C       Output:
 C           nBS0: 0th order electron slowing-down frequency
 C           nBS1: 1st order electron slowing-down frequency
+C
 C----------------------------------------------------------------------|
         ! ----- Subroutine arguments ----------------------------------|
       integer, intent(in) :: 
@@ -359,6 +364,7 @@ C       Z0  : net charge of ion species
 C
 C     Output:
 C       a   : effective length scale
+C
 C----------------------------------------------------------------------|
       include 'src/inc/parameters_get_length_scale.inc'
 
@@ -415,6 +421,7 @@ C       Z0  : net charge of ion species
 C
 C     Output:
 C       Ihat: normalised ion mean excitation energy
+C
 C----------------------------------------------------------------------|
       include 'src/inc/parameters_get_Ihat.inc'
 

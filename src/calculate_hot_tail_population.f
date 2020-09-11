@@ -15,6 +15,7 @@ C       - print_hot_tail_info
 C
 C     Function arguments:
 C       - time: time after onset of TQ (s)
+C       - t_de: electron temperature decay time scale (s)
 C       - ne:   electron density at time `time` (m**-3)
 C       - ne_i: electron density at onset of TQ (m**-3)
 C       - ne_f: electron density at end of TQ (m**-3)
@@ -66,7 +67,9 @@ C======================================================================|
       real(kind=dp) function hot_tail_density(time, t_dec, Epar, T, T_i,
      >  T_f, ne, ne_i, ne_f, verbose, store_result, un) result(n_ht)
 C----------------------------------------------------------------------|
-C     Evaluates the density of hot-tail runaway electron.
+C     Evaluates the density of hot-tail runaway electron according to
+C     the model by H M Smith and E Verwichte. Phys. Plasmas 15, 072502
+C     (2008), equations (9), (17), (18).
 C   
 C     Input:
 C       time:       time after onset of TQ (s)

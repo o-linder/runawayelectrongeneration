@@ -64,6 +64,7 @@ C           B   : magnetic field (T)
 C
 C       Output:
 C           Eceff/Ec, where Ec = ne e^3 lnLc/(4 pi epsilon_0^2 m_e c^2)
+C
 C----------------------------------------------------------------------|
         ! ----- Function arguments ------------------------------------|
       integer, intent(in) ::
@@ -134,7 +135,8 @@ C       ne  : free electron density (m**-3)
 C       T   : electron temperature (eV)
 C
 C     Output:
-C       E_c : critical electric field
+C       E_c : critical electric field (V)
+C
 C----------------------------------------------------------------------|
         ! ----- Function arguments ------------------------------------|
       real(kind=dp), intent(in) ::
@@ -159,7 +161,8 @@ C       ne  : free electron density (m**-3)
 C       T   : electron temperature (eV)
 C
 C     Output:
-C       E_D : Dreicer electric field
+C       E_D : Dreicer electric field (V)
+C
 C----------------------------------------------------------------------|
         ! ----- Function arguments ------------------------------------|
       real(kind=dp), intent(in) ::
