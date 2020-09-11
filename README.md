@@ -51,7 +51,12 @@ The following arguments are used by the functions in this module:
 * `integer Z0(nspecies)`: net charge of each ion species
 
 ### Hot-tail Runaway Electron Population
-The function `real(kind=dp) function hot_tail_density(time, t_dec, Epar, T, T_i, T_f, ne, ne_i, ne_f, verbose, store_result, un) result(n_ht)` calculates the hot-tail density `n_ht` in units of m\*\*-3 according to Eq. (18) in [H.M. Smith and E. Verwichte. Hot tail runaway electron generation in tokamak disruptions. *Phys. Plasmas* **15**, 072502 (2008)](https://doi.org/10.1063/1.2949692). 
+The function 
+```fortran
+      real(kind=dp) function hot_tail_density(time, t_dec, Epar, T, T_i,
+     >  T_f, ne, ne_i, ne_f, verbose, store_result, un) result(n_ht)
+```
+calculates the hot-tail density `n_ht` in units of m\*\*-3 according to Eq. (18) in [H.M. Smith and E. Verwichte. Hot tail runaway electron generation in tokamak disruptions. *Phys. Plasmas* **15**, 072502 (2008)](https://doi.org/10.1063/1.2949692). 
 
 Notes on the function arguments:
 * The time `time` is provided with respect to the onset of the thermal quench. 
@@ -62,16 +67,36 @@ Notes on the function arguments:
 * Optional: The unit number `integer un` of an opened, writeable file has to be provided if results are to be stored. 
 
 ### Dreicer Runaway Electron Growth Rate: Classic Formula
-The function `real(kind=dp) function Dreicer_growthrate_classic(Z, Z0, nj, nSpecies, T, Epar) result (Gamma_D)` calculates the runaway electron growth rate `Gamma_D` in units of 1/s due to Dreicer generation according to Eqs. (62)-(64) in [J.W. Connor and R.J. Hastie. Relativistic limitations on runaway electrons, *Nucl. Fusion* **15** (1975), 415](https://doi.org/10.1088/0029-5515/15/3/007). Note, that the full expression is evaluated. Neither the limit of strong electric fields, equation (66), or the non-relativistic limit, equation (67), is included, as these are deemed irrelevant for application.
+The function 
+```fortran
+      real(kind=dp) function Dreicer_growthrate_classic(Z, Z0, nj, 
+     >  nSpecies, T, Epar) result (Gamma_D) 
+```
+calculates the runaway electron growth rate `Gamma_D` in units of 1/s due to Dreicer generation according to Eqs. (62)-(64) in [J.W. Connor and R.J. Hastie. Relativistic limitations on runaway electrons, *Nucl. Fusion* **15** (1975), 415](https://doi.org/10.1088/0029-5515/15/3/007). Note, that the full expression is evaluated. Neither the limit of strong electric fields, equation (66), or the non-relativistic limit, equation (67), is included, as these are deemed irrelevant for application.
 
 ### Dreicer Runaway Electron Growth Rate: Neural Network
-The function `real(kind=dp) function Dreicer_growthrate_CODE_neural_network(Z, Z0, nj, nSpecies, T, Epar) result (Gamma_D)` calculates the runaway electron growth rate `Gamma_D` in units of 1/s due to Dreicer generation employing a neural network presented in [L. Hesslow, L. Unnerfelt, O. Vallhagen, O. Embreus, M. Hoppe, G. Papp and T. Fulop. Evaluation of the Dreicer runaway growth rate in the presence of high-Z impurities using a neural network, *J. Plasma Phys* **85** (2019), 475850601](https://doi.org/10.1017/S0022377819000874). The original MATLAB implementation of the neural network can be found at [https://github.com/unnerfelt/dreicer-nn](https://github.com/unnerfelt/dreicer-nn).
+The function
+```fortran
+      real(kind=dp) function Dreicer_growthrate_CODE_neural_network(
+     >   Z, Z0, nj, nSpecies, T, Epar) result (Gamma_D)
+```
+calculates the runaway electron growth rate `Gamma_D` in units of 1/s due to Dreicer generation employing a neural network presented in [L. Hesslow, L. Unnerfelt, O. Vallhagen, O. Embreus, M. Hoppe, G. Papp and T. Fulop. Evaluation of the Dreicer runaway growth rate in the presence of high-Z impurities using a neural network, *J. Plasma Phys* **85** (2019), 475850601](https://doi.org/10.1017/S0022377819000874). The original MATLAB implementation of the neural network can be found at [https://github.com/unnerfelt/dreicer-nn](https://github.com/unnerfelt/dreicer-nn).
 
 ### Avalanche Runaway Electron Generation Rate: Classic Formula
-The function `real(kind=dp) function avalanche_growthrate_classic(Z, Z0, nj, nSpecies, T, Epar, eps) result (Gamma_av)` calculates the runaway electron growth rate `Gamma_av` in units of 1/s due to avalanche generation according to Eq. (18) in [M.N. Rosenbluth and S.V. Putvinski. Theory for avalanche of runaway electrons in tokamaks, *Nucl. Fusion* **37** (1997), 1355](https://doi.org/10.1088/0029-5515/37/10/I03).
+The function
+```fortran
+      real(kind=dp) function avalanche_growthrate_classic(Z, Z0, nj, 
+     >  nSpecies, T, Epar, eps) result (Gamma_av)
+```
+calculates the runaway electron growth rate `Gamma_av` in units of 1/s due to avalanche generation according to Eq. (18) in [M.N. Rosenbluth and S.V. Putvinski. Theory for avalanche of runaway electrons in tokamaks, *Nucl. Fusion* **37** (1997), 1355](https://doi.org/10.1088/0029-5515/37/10/I03).
 
 ### Avalanche Runaway Electron Generation Rate: Including Partially Ionized Impurities
-The function `real(kind=dp) function avalanche_growthrate(Z, Z0, nj, nSpecies, T, Epar, B) result (Gamma_av)` calculates the runaway electron growth rate `Gamma_av` in units of 1/s due to avalanche generation considering the impact of partially ionized impurities according to Eq. (14) in [L. Hesslow, O. Embreus, O. Vallhagen and T. Fulop. Influence of massive material injection on avalanche runaway generation during tokamak disruptions, *Nucl. Fusion* **59** (2019), 084004](https://doi.org/10.1088/1741-4326/ab26c2).
+The function
+```fortran
+      real(kind=dp) function avalanche_growthrate(Z, Z0, nj, nSpecies, 
+     >  T, Epar, B) result (Gamma_av) 
+```
+calculates the runaway electron growth rate `Gamma_av` in units of 1/s due to avalanche generation considering the impact of partially ionized impurities according to Eq. (14) in [L. Hesslow, O. Embreus, O. Vallhagen and T. Fulop. Influence of massive material injection on avalanche runaway generation during tokamak disruptions, *Nucl. Fusion* **59** (2019), 084004](https://doi.org/10.1088/1741-4326/ab26c2).
 
 ### Further functions and Subroutines
 The module contains additional public functions and subroutines for the calculation of quantities required in aforementioned functions for the calculation of the hot-tail runaway electron population and the runaway electron growth rates. These are listed in the following sections. If not in any of the references mentioned above, these additional quantities are defined in the following publications.
