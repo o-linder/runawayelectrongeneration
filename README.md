@@ -45,7 +45,7 @@ The following arguments are used by the functions in this module:
 * `real(kind=dp) t_dec`: time scale of electron temperature decay (s)
 * `real(kind=dp) T_f`: electron temperature at end of thermal quench (eV)
 * `real(kind=dp) T_i`: electron temperature at onset of thermal quench (eV)
-* `real(kind=dp) time': time after onset of thermal quench (s)
+* `real(kind=dp) time`: time after onset of thermal quench (s)
 * `real(kind=dp) v`: electron velocity (m/s)
 * `integer Z(nspecies)`: atomic number of each ion species
 * `integer Z0(nspecies)`: net charge of each ion species
