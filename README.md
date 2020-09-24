@@ -15,7 +15,7 @@ Compile the .f-files located in `src` in the following order to generate the pro
 9. `calculate_avalanche_growthrate.f`
 10. `runawayelectrongeneartion.f`
 
-An example is given in the makefile (`make project`/`make all`). 
+An example is given in the makefile (`make module`/`make all`). 
 
 A demonstration program for the calculation of the hot tail population is provided in `src/hot_tail_demo.f` and may be compiled using the makefile (`make hot_tail_demo`/`make all`).
 
