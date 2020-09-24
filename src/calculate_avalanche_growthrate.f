@@ -5,8 +5,9 @@ C     This module is used to calculate the avalanche runaway growth
 C     rate.
 C
 C     Functions:
-C       - Dreicer_growthrate_classic
-C       - Dreicer_growthrate_CODE_neural_network
+C       - avalanche_growthrate
+C       - avalanche_growthrate_classic
+C       - p_star
 C
 C     Function arguments:
 C       - Z:    atomic number of each ion species
@@ -15,6 +16,8 @@ C       - nj:   density of each ion species (m**-3)
 C       - nSpe: number of ion species
 C       - T:    electron temperature (eV)
 C       - Epar: parallel electric field (V/m)
+C       - eps:  local r/R
+C       - B:    magnetic field (T)
 C
 C----------------------------------------------------------------------|
       use double
@@ -24,16 +27,17 @@ C----------------------------------------------------------------------|
      >  ln_Lambda_0, ln_Lambda_c
       use collision_frequencies, only :
      >  nu_ee, nuBar_D, nuBar_S
-      use electric_fields
+      use electric_fields, only :
+     >  E_c, E_ceff_over_E_c, E_D
+
+      implicit none
+
+      private
 
       public ::
      >  avalanche_growthrate_classic,
      >  avalanche_growthrate,
      >  p_star
-
-      private ::
-     >  dp, E_c, E_ceff_over_Ec, E_D, iter_acc, iter_max, ln_Lambda_0, 
-     >  ln_Lambda_c, nu_ee, nuBar_D, nuBar_S, pi
 
         ! ----- Parameters --------------------------------------------|
       integer, parameter ::

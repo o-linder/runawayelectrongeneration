@@ -38,19 +38,14 @@ C----------------------------------------------------------------------|
 
       implicit none
 
+      private
+
       public ::
      >  hot_tail_density, 
      >  EVDF_modified_Maxwellian,
      >  tau,
      >  v_c,
      >  v_th
-
-      private ::
-     >  set_Te,
-     >  set_ne,
-     >  print_hot_tail_info,
-     >
-     >  dp, e, EVDF_min_val, iter_acc, m_e, pi
 
         ! ----- Parameters --------------------------------------------|
       integer, parameter ::

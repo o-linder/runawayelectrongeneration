@@ -28,9 +28,12 @@ C----------------------------------------------------------------------|
       use double
       use physical_constants, only :
      >  alpha
-      use Coulomb_logarithms
+      use Coulomb_logarithms, only :
+     >  ln_Lambda_0, ln_Lambda_c, ln_Lambda_ee, ln_Lambda_ei
 
       implicit none
+
+      private
 
       public ::
      >  nu_ee,
@@ -38,13 +41,6 @@ C----------------------------------------------------------------------|
      >  calc_nuBar_D01,
      >  nuBar_S,
      >  calc_nuBar_S01
-
-      private ::
-     >  get_length_scale,
-     >  get_Ihat,
-     >
-     >  alpha, dp, k, ln_Lambda_0, ln_Lambda_c, ln_Lambda_ee, 
-     >  ln_Lambda_ei
 
         ! ----- Parameters --------------------------------------------|
       real(kind=dp), parameter ::

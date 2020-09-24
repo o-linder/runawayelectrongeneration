@@ -7,11 +7,10 @@ C----------------------------------------------------------------------|
 
       implicit none
 
+      private
+
       public ::
      >  store_real_arr
-
-      private ::
-     >  dp
 
       contains
 

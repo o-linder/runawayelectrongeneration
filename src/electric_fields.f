@@ -23,17 +23,18 @@ C----------------------------------------------------------------------|
      >  alpha
       use Coulomb_logarithms, only :
      >  ln_Lambda_0, ln_Lambda_c
-      use collision_frequencies
+      use collision_frequencies, only :
+     >  calc_nuBar_D01, calc_nuBar_S01
+
 
       implicit none
+
+      private
       
       public ::
      >  E_ceff_over_E_c,
      >  E_c,
      >  E_D
-
-      private ::
-     >  alpha, dp, iter_acc, iter_max, ln_Lambda_0, ln_Lambda_c
 
         ! ----- Parameters --------------------------------------------|
       integer, parameter ::

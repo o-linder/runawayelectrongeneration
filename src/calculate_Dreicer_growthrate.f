@@ -24,12 +24,11 @@ C----------------------------------------------------------------------|
 
       implicit none
 
+      private
+
       public ::
      >  Dreicer_growthrate_classic,
      >  Dreicer_growthrate_CODE_neural_network
-
-      private ::
-     >  dp, E_c, E_D, nu_ee, pi
 
         ! ----- Parameters --------------------------------------------|
       real(kind=dp), parameter ::

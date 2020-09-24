@@ -24,14 +24,13 @@ C----------------------------------------------------------------------|
 
       implicit none
 
+      private
+
       public ::
      >  ln_Lambda_0,
      >  ln_Lambda_c,
      >  ln_Lambda_ee,
      >  ln_Lambda_ei
-
-      private ::
-     >  dp, k, m_ec
 
         ! ----- Parameters --------------------------------------------|
       real(kind=dp), parameter ::
