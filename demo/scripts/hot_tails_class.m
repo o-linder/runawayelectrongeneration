@@ -38,8 +38,11 @@ classdef hot_tails_class
     
     properties
         Burst = struct('type', 'analitic'); % structure for storing the burst runaway calculation parameters
-        PhysConst = struct('qe',1.602*10^(-19), 'me',9.109*10^(-31),...
-            'epsilon',8.8542*10^(-12), 'vlight',299792458); % Physical constants
+        PhysConst = struct(...
+            'qe', 1.6021766339999999*10^(-19), ...
+            'me', 9.1093837015000008*10^(-31), ...
+            'epsilon', 8.8541878176203892*10^(-12), ...
+            'vlight',299792458); % Physical constants
     end
     
     methods
@@ -148,6 +151,8 @@ classdef hot_tails_class
             
             o.Burst.v_T_A = sqrt(2*Temperature*o.PhysConst.qe/o.PhysConst.me);
             vT_vT0_3 = (o.Burst.v_T_A ./ o.Burst.v_T0).^3;
+
+            fileID = fopen('tmp_var.dat', 'a');
             
             for k=1:length(nb)
                 if o.Burst.starttime(k)<=time
@@ -177,8 +182,14 @@ classdef hot_tails_class
                     % burst runaway density
                     func = @(x) Fa(x) .* (x.^2 - xc_2);
                     nb(k) = integral(func,sqrt(xc_2),Inf);
+
+                    fprintf(fileID,'%19.12e ', sqrt(xc_2)*sqrt(Temperature/o.Burst.T0), ...
+                        o.Burst.tau_A(k)); % v_c is normalized to v_T, but need v_T0 for comparison
+                    fprintf(fileID,'\n');
                 end
             end
+
+            fclose(fileID);
             
         end
         

@@ -41,12 +41,11 @@ $(OBJDIR)%.o : \
 	$(FC) $(FFLAGS) -c -o $@ $<
 
 # ----- Combine all objects and modules into single files -------------|
-$(REGC).o : $(OBJDIR)$(REG).o
+$(REGC).o : 
 	@# Creates a single object from all required objects and stores it
 	@# and an archive of the required modules in the main directory
 	@tar czf $(MODA) $(MODDIR)*.mod
-	ld -relocatable $(OBJDIR)*.o -o $@
-	cp $@ $(OBJDIR)$@
+	ld -relocatable $^ -o $@
 
 # ----- Hot-tail demonstration program --------------------------------|
 $(DEMO) : $(REGC).o $(OBJDIR)$(DEMO).o
@@ -54,6 +53,24 @@ $(DEMO) : $(REGC).o $(OBJDIR)$(DEMO).o
 	$(FC) $(FFLAGS) -o demo/$@ $^
 
 # ----- List prerequisites --------------------------------------------|
+#   # Hot tail demonstration program
+$(OBJDIR)$(DEMO).o : \
+		$(OBJDIR)double.o \
+		$(OBJDIR)runawayelectrongeneration.o
+
+#	# Combined object
+$(REGC).o : \
+		$(OBJDIR)$(REG).o \
+		$(OBJDIR)calculate_avalanche_growthrate.o \
+		$(OBJDIR)calculate_Dreicer_growthrate.o \
+		$(OBJDIR)calculate_hot_tail_population.o \
+		$(OBJDIR)collision_frequencies.o \
+		$(OBJDIR)Coulomb_logarithms.o \
+		$(OBJDIR)double.o \
+		$(OBJDIR)electric_fields.o \
+		$(OBJDIR)file_io.o \
+		$(OBJDIR)physical_constants.o
+
 #	# Runawayelectrongeneration module
 $(OBJDIR)$(REG).o : \
 		$(OBJDIR)calculate_hot_tail_population.o \

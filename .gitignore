@@ -3,3 +3,5 @@
 *.un*
 *.vim
 *~
+
+makegit.mk

@@ -60,7 +60,7 @@ axs = fig_1.axes
 mult = [1, 1e-16, 1e-19, 1, 1, 1, 1]
 for j, dat in enumerate([dat_m, dat_p, dat_f]):
     # ----- Plot traces -------------------------------------------------------|
-    for i, ind in enumerate([1, 3, 5, 2, 6, 1]):
+    for i, ind in enumerate([1, 3, 5, 2, 6, 4]):
         axs[i].plot(1e3*dat[:,0], mult[ind]*dat[:,ind], c=color[j], 
                 label=label_sources[j])
 
