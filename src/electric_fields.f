@@ -79,7 +79,7 @@ C----------------------------------------------------------------------|
      >  i
 
       real(kind=dp) ::
-     >  e0, e1, e2, E_old, ne, nuBar_D0, nuBar_D1, nuBar_S0, nuBar_S1, 
+     >  a0, a1, a2, ne, nuBar_D0, nuBar_D1, nuBar_S0, nuBar_S1, 
      >  tau_rad_inv
 
 C----------------------------------------------------------------------|
@@ -98,27 +98,38 @@ C----------------------------------------------------------------------|
       tau_rad_inv = B**2/(15.44_dp*ln_Lambda_c(ne, T))/(1.e-20_dp*ne)
 
 C----------------------------------------------------------------------|
-C     Calculate normalised Eceff iteratively
+C     Calculate Eceff/Ec analytically
 C----------------------------------------------------------------------|
-        ! ----- Coefficients ------------------------------------------|
-      e2 = log(nuBar_D0/(2*nuBar_S1))
+C     With ideas from Vinodh Bandaru (IPP)
 
-      e0 = nuBar_S0 + nuBar_S1*(1+nuBar_D1/nuBar_D0)*e2
-      e1 = (.7_dp+.4_dp*e2)*alpha*nuBar_D0*nuBar_D1 + nuBar_S1**2
-      e2 = 2*tau_rad_inv*nuBar_D0**2
+        ! ----- Coefficients of cubic equation ------------------------|
+        ! a3*x**3 + a2*x**2 + a1*x + a0 = 0
+        ! Note, that a3 = 1 in this case and is thus ignored.
+      a0 = log(nuBar_D0/(2*nuBar_S1))
 
-        ! ----- Initial guess -----------------------------------------|
-      E_ceff_over_E_c  = ln_Lambda_c(ne, T)/ln_Lambda_0(ne, T)
-     >  * sum(Z(:)*nj(:))/ne
+      a2 = -2._dp*(nuBar_S0 + nuBar_S1*(1+nuBar_D1/nuBar_D0)*a0)
+      a1 = (.5_dp*a2)**2 - (.7_dp+.4_dp*a0)*alpha*nuBar_D0*nuBar_D1 
+     >      - nuBar_S1**2
+      a0 = -2._dp*tau_rad_inv*nuBar_D0**2
 
-        ! ----- Iterative calculation ---------------------------------|
-      do i=1,iter_max
-        E_old = E_ceff_over_E_c
-        E_ceff_over_E_c = e0 + sqrt(e1 + e2/E_old)
+        ! ----- Factors of the solution for x -------------------------|
+        ! For the solution, the factors are
+        ! a0 -> R = (9*a2*a1 - 27*a0 - 2*a2**3)/54
+        ! a1 -> Q = (3*a1 - a2**2)/9
+        ! a1 -> D = Q**3 + R**2
+      a0 = (9*a2*a1 - 27*a0 - 2*a2**3)/54._dp
+      a1 = (3*a1 - a2**2)/9._dp
+      a1 = a1**3 + a0**2
 
-        if (abs(E_ceff_over_E_c-E_old) .le. iter_acc) 
-     >      exit 
-      enddo
+        ! ----- Solution for x ----------------------------------------|
+        ! The solution is given by:
+        ! x = (R + sqrt(D))**(1/3) + (R - sqrt(D))**(1/3) - a2/3
+        ! Since it may be that D < 0, complex numbers have to be used
+        ! Note, that a1 -> D and a0 -> R
+      E_ceff_over_E_c = real(
+     >    (a0 + sqrt(cmplx(a1, 0._dp, kind=dp)))**(1._dp/3._dp)
+     >  + (a0 - sqrt(cmplx(a1, 0._dp, kind=dp)))**(1._dp/3._dp)
+     >  - a2/3._dp)
 
       return
       end function E_ceff_over_E_c
