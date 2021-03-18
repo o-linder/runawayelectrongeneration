@@ -82,7 +82,7 @@ C----------------------------------------------------------------------|
      >  i
 
       real(kind=dp) ::
-     >  Ec, gam, ne, nu_ee_th, Zeff
+     >  arg, Ec, gam, ne, nu_ee_th, Zeff
 
 C----------------------------------------------------------------------|
 C     Construct required quantities
@@ -103,12 +103,19 @@ C----------------------------------------------------------------------|
         ! ----- Geometric factor --------------------------------------|
       gam = 1._dp/(1 + 1.46_dp*sqrt(eps) + 1.72_dp*eps)
 
+        ! ----- Argument of sqrt --------------------------------------|
+      arg = 1 - Ec/Epar + 4*pi*(Zeff+1)**2
+     >      / 3._dp/gam/(Zeff+5)/(Epar**2/Ec**2 + 4._dp/gam**2-1)
+
 C----------------------------------------------------------------------|
 C     Calculate growth rate
 C----------------------------------------------------------------------|
-      Gamma_av = nu_ee_th*sqrt(pi*gam/3._dp/(Zeff+5))*(Epar/Ec-1)
-     >  / ln_Lambda_c(ne, T) / sqrt(1 - Ec/Epar + 4*pi*(Zeff+1)**2
-     >      / 3._dp/gam/(Zeff+5)/(Epar**2/Ec**2 + 4._dp/gam**2-1))
+      if (arg .gt. 0._dp) then
+        Gamma_av = nu_ee_th*sqrt(pi*gam/3._dp/(Zeff+5))*(Epar/Ec-1)
+     >      / ln_Lambda_c(ne, T) / sqrt(arg)
+      else
+        Gamma_av = 0._dp
+      endif
 
       return
       end function avalanche_growthrate_classic

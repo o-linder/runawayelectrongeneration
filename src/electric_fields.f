@@ -36,13 +36,6 @@ C----------------------------------------------------------------------|
      >  E_c,
      >  E_D
 
-        ! ----- Parameters --------------------------------------------|
-      integer, parameter ::
-     >  iter_max    = 100               ! maximum number of iterations
-
-      real(kind=dp), parameter ::
-     >  iter_acc    = 1.0e-8_dp         ! target accuracy of iterations
-
       contains
 
 C======================================================================|
