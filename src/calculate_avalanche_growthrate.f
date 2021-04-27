@@ -82,7 +82,7 @@ C----------------------------------------------------------------------|
      >  i
 
       real(kind=dp) ::
-     >  arg, Ec, gam, ne, nu_ee_c, Zeff
+     >  arg, Ec, fac, gam, ne, Zeff
 
 C----------------------------------------------------------------------|
 C     Construct required quantities
@@ -93,9 +93,8 @@ C----------------------------------------------------------------------|
         ! ----- Critical electric field -------------------------------|
       Ec = E_c(ne, T)
 
-        ! ----- Relativistic electron electron collision frequency ----|
-      nu_ee_c = nu_ee(ne, T)*ln_Lambda_c(ne,T)/ln_Lambda_0(ne, T)
-     >  * 7.7431021134304697e-09_dp*T**1.5_dp
+        ! ----- Pre-factor: physical constants ------------------------|
+      fac = 5.866792055096e+02_dp
 
         ! ----- Effective charge --------------------------------------|
       Zeff = sum(Z0(:)**2*nj(:))/ne
@@ -111,7 +110,7 @@ C----------------------------------------------------------------------|
 C     Calculate growth rate
 C----------------------------------------------------------------------|
       if (arg .gt. 0._dp) then
-        Gamma_av = nu_ee_c*sqrt(pi*gam/3._dp/(Zeff+5))*(Epar/Ec-1)
+        Gamma_av = fac * sqrt(pi*gam/3._dp/(Zeff+5))*(Epar-Ec)
      >      / ln_Lambda_c(ne, T) / sqrt(arg)
       else
         Gamma_av = 0._dp
